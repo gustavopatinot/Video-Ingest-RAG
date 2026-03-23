@@ -35,17 +35,28 @@ class VideoDownloader:
             Optional[str]: La ruta absoluta del archivo de audio descargado (.mp3),
                            o None si ocurre un error durante el proceso.
         """
-        # Opciones de configuración para yt-dlp
+        # Opciones de configuración para yt-dlp con camuflaje anti-403
         ydl_opts: Dict[str, Any] = {
             'format': 'bestaudio/best',
-            'outtmpl': f'{self.output_dir}/%(id)s.%(ext)s',
+            'outtmpl': f'{str(self.output_dir)}/%(id)s.%(ext)s',
             'postprocessors': [{
                 'key': 'FFmpegExtractAudio',
                 'preferredcodec': 'mp3',
                 'preferredquality': '192',
             }],
             'quiet': True,
-            'no_warnings': True
+            'no_warnings': True,
+            # --- NUEVAS OPCIONES ANTI-403 ---
+            'nocheckcertificate': True,
+            'extractor_args': {
+                # Fuerza a YouTube a tratar la petición como un cliente Android/iOS o API
+                'youtube': ['player_client=android', 'player_skip=webpage']
+            },
+            'http_headers': {
+                'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
+                'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
+                'Accept-Language': 'es-ES,es;q=0.9,en;q=0.8',
+            }
         }
 
         try:
