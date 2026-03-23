@@ -1,2 +1,2 @@
 # Video-Ingest-RAG
-Un sistema modular basado en agentes y ejecutado en Colab Pro, diseñado para la extracción, análisis multimodal (audio/visión) y organización semántica de archivos de video.
+Esta arquitectura permite procesar, catalogar y consultar grandes volúmenes de material audiovisual continuo, transformando los medios crudos en una base de conocimiento consultable mediante lenguaje natural.
